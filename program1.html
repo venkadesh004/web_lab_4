@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hide/Show Elements with jQuery</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<h2>Hide/Show Elements with jQuery</h2>
+
+<p>Click the buttons to toggle visibility:</p>
+
+<button id="hideButton">Hide Element</button>
+<button id="showButton">Show Element</button>
+
+<div id="elementToToggle">
+  This is the element to hide/show.
+</div>
+
+<script>
+  $(document).ready(function() {
+    // Hide element initially
+    $('#elementToToggle').hide();
+    
+    // Button click to hide element
+    $('#hideButton').click(function() {
+      $('#elementToToggle').hide();
+    });
+
+    // Button click to show element
+    $('#showButton').click(function() {
+      $('#elementToToggle').show();
+    });
+  });
+</script>
+
+</body>
+</html>

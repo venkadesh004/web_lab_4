@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Highlight Tagged Days in Calendar</title>
+<style>
+  .highlight {
+    background-color: yellow;
+  }
+  .calendar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .day {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h2>Highlight Tagged Days in Calendar</h2>
+
+<p>Click the button to highlight tagged days:</p>
+
+<button id="highlightButton">Highlight Tagged Days</button>
+
+<h3>Calendar</h3>
+<div class="calendar">
+  <div class="day">1</div>
+  <div class="day">2</div>
+  <div class="day tagged">3</div>
+  <div class="day">4</div>
+  <div class="day">5</div>
+  <!-- Add more days as needed -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Button click to highlight tagged days
+    $('#highlightButton').click(function() {
+      $('.day.tagged').toggleClass('highlight');
+    });
+  });
+</script>
+
+</body>
+</html>

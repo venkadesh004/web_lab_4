@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Opening Animation with jQuery</title>
+<style>
+  .container {
+    width: 200px;
+    height: 200px;
+    background-color: #ccc;
+    overflow: hidden;
+  }
+  .content {
+    width: 100%;
+    height: 100%;
+    background-color: #f00;
+    display: none; /* Hide initially for animation */
+  }
+</style>
+</head>
+<body>
+
+<h2>Simple Opening Animation with jQuery</h2>
+
+<div class="container">
+  <div class="content"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Show content with animation on page load
+    $('.content').slideDown(1000); // Duration: 1000 milliseconds (1 second)
+  });
+</script>
+
+</body>
+</html>
