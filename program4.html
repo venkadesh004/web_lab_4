@@ -1,83 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Image Magnifier with jQuery</title>
-<style>
-  #imageContainer {
-    position: relative;
-    width: 400px;
-    height: 300px;
-    overflow: hidden;
-  }
-  #imageContainer img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  #magnifier {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 2px solid #000;
-    background: rgba(255, 255, 255, 0.5);
-    display: none;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Magnifier</title>
+  <style>
+    /* Container for the magnifier and the original image */
+    .image-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Style for the magnifier */
+    .magnifier {
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      border: 2px solid #333;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    /* Style for the zoomed image */
+    .magnifier img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Original image style */
+    .original-image {
+      display: block;
+      max-width: 100%;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 
-<h2>Simple Image Magnifier with jQuery</h2>
+<div class="image-container">
+  <!-- Original image -->
+  <img class="original-image" src="Thiagarajar_College_of_Engineering_logo.png" alt="Original Image">
 
-<div id="imageContainer">
-  <img src="TCE_Logo.png" alt="Image">
-  <div id="magnifier"></div>
+  <!-- Magnifier -->
+  <div class="magnifier"></div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
-    var $imageContainer = $('#imageContainer');
-    var $magnifier = $('#magnifier');
+$(document).ready(function() {
+  var magnifierSize = 150;
+  var $magnifier = $('.magnifier');
+  var $originalImage = $('.original-image');
 
-    $imageContainer.mousemove(function(e) {
-      var magnifierSize = $magnifier.width();
-      var offsetX = e.pageX - $imageContainer.offset().left;
-      var offsetY = e.pageY - $imageContainer.offset().top;
-      var imageWidth = $imageContainer.width();
-      var imageHeight = $imageContainer.height();
-      var imageRatio = $imageContainer.find('img').width() / imageWidth;
+  // Mouse move event on the original image
+  $originalImage.mousemove(function(e) {
+    var offsetX = e.pageX - $originalImage.offset().left;
+    var offsetY = e.pageY - $originalImage.offset().top;
 
-      var magnifierPosX = offsetX - magnifierSize / 2;
-      var magnifierPosY = offsetY - magnifierSize / 2;
+    var magnifierX = offsetX - magnifierSize / 2;
+    var magnifierY = offsetY - magnifierSize / 2;
 
-      if (magnifierPosX < 0) {
-        magnifierPosX = 0;
-      }
-      if (magnifierPosX > imageWidth - magnifierSize) {
-        magnifierPosX = imageWidth - magnifierSize;
-      }
-      if (magnifierPosY < 0) {
-        magnifierPosY = 0;
-      }
-      if (magnifierPosY > imageHeight - magnifierSize) {
-        magnifierPosY = imageHeight - magnifierSize;
-      }
+    // Restrict magnifier within the bounds of the original image
+    if (magnifierX < 0) magnifierX = 0;
+    if (magnifierY < 0) magnifierY = 0;
+    if (magnifierX + magnifierSize > $originalImage.width()) magnifierX = $originalImage.width() - magnifierSize;
+    if (magnifierY + magnifierSize > $originalImage.height()) magnifierY = $originalImage.height() - magnifierSize;
 
-      $magnifier.css({
-        left: magnifierPosX + 'px',
-        top: magnifierPosY + 'px',
-        backgroundPosition: (-magnifierPosX * imageRatio) + 'px ' + (-magnifierPosY * imageRatio) + 'px'
-      });
+    // Move the magnifier
+    $magnifier.css({
+      left: magnifierX,
+      top: magnifierY
     });
 
-    $imageContainer.mouseenter(function() {
-      $magnifier.fadeIn();
-    }).mouseleave(function() {
-      $magnifier.fadeOut();
-    });
+    // Calculate the percentage offset
+    var percentX = magnifierX / ($originalImage.width() - magnifierSize);
+    var percentY = magnifierY / ($originalImage.height() - magnifierSize);
+
+    // Apply the same percentage offset to the zoomed image
+    $magnifier.html('<img src="' + $originalImage.attr('src') + '" style="object-position: ' + (-percentX * 100) + '% ' + (-percentY * 100) + '%;">');
   });
+
+  // Show magnifier on mouse enter
+  $originalImage.mouseenter(function() {
+    $magnifier.show();
+  });
+
+  // Hide magnifier on mouse leave
+  $originalImage.mouseleave(function() {
+    $magnifier.hide();
+  });
+});
 </script>
 
 </body>
